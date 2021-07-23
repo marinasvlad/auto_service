@@ -11,9 +11,10 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
+
 @Entity
-@Table(name="admin")
-class Admin {
+@Table(name="user")
+class User {
 
     @Id
     @Column(name="id")
@@ -24,20 +25,14 @@ class Admin {
     private String user;
 
     @Column(name="password")
-    private double password;
+    private String password;
 
     @OneToMany(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-    @JoinColumn(name="admin_id")
-    private List<User> users;
+    @JoinColumn(name="user_id")
+    private List<Car> cars;
 
+    public User(){
 
-    public Admin(){
-
-    }
-
-    Admin(String user, double password) {
-        this.user = user
-        this.password = password
     }
 
     int getId() {
@@ -56,35 +51,45 @@ class Admin {
         this.user = user
     }
 
-    double getPassword() {
+    String getPassword() {
         return password
     }
 
-    void setPassword(double password) {
+    void setPassword(String password) {
         this.password = password
     }
 
-    Admin(List<User> users) {
-        this.users = users
+    User(String user, String password) {
+        this.user = user
+        this.password = password
     }
 
-    List<User> getUsers() {
-        return users
+    List<Car> getCars() {
+        return cars
     }
 
-    void setUsers(List<User> users) {
-        this.users = users
+    void setCars(List<Car> cars) {
+        this.cars = cars
     }
+
+    // add a convenience method
+
+    public void addCar(Car theCar){
+    if(cars == null){
+        cars = new ArrayList<>();
+
+        cars.add(theCar);
+    }
+
+    }
+
 
     @Override
     public String toString() {
-        return "Admin{" +
+        return "User{" +
                 "id=" + id +
                 ", user='" + user + '\'' +
-                ", password=" + password +
+                ", password='" + password + '\'' +
                 '}';
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.auto_service.DAO
 
+import com.example.auto_service.Entities.Admin
 import com.example.auto_service.Entities.Car
 import org.hibernate.Session
 import org.hibernate.SessionFactory
@@ -7,10 +8,9 @@ import org.hibernate.query.Query
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
-
-
 @Repository
-public class carDAOImpl implements carDAO {
+public class adminDAOImpl implements adminDAO{
+
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -18,61 +18,62 @@ public class carDAOImpl implements carDAO {
 
     // get the current hibernate session
     @Override
-    public List<Car> getCars() {
+    public List<Admin> getAdmin() {
         Session currentSession = sessionFactory.getCurrentSession();
 
 
-        // create a query, sort by model
+        // create a query, sort by user
 
-        Query<Car> theQuery = currentSession.createQuery("from Car order by model", Car.class).list();
+        Query<Admin> theQuery = currentSession.createQuery("from Admin order by user", Admin.class).list();
 
         // execute query and get result list
 
-        List<Car> cars = theQuery.getResultList();
+        List<Admin> admins = theQuery.getResultList();
 
         // return the result
 
-        return cars;
+        return admins;
 
     }
 
     @Override
-    public void saveCars(Car theCar){
+    public void saveAdmins(Admin theAdmin){
 
         // get current session
         Session currentSession = sessionFactory.getCurrentSession();
 
-        // save/update the car
-        currentSession.saveOrUpdate(theCar);
+        // save/update the admin
+        currentSession.saveOrUpdate(theAdmin);
     }
 
     @Override
-    public Car getCar(int theId){
+    public Admin getAdmin(int theId){
         // get the current session
 
         Session currentSession = sessionFactory.getCurrentSession();
 
         // read from database using primary key
 
-        Car theCar = currentSession.get(Car.class, theId);
+        Admin theAdmin = currentSession.get(Admin.class, theId);
 
-        return theCar;
+        return theAdmin;
     }
 
     @Override
-    public void deleteCar(int theId){
+    public void deleteAdmin(int theId){
         // get the current session
 
         Session currentSession = sessionFactory.getCurrentSession();
 
-         // delete object with primary key
+        // delete object with primary key
 
-        Query theQuery = currentSession.createQuery("delete from Car where id=:theCarId");
+        Query theQuery = currentSession.createQuery("delete from Admin where id=:theAdminId");
 
-        theQuery.setParameter("carId", theId);
+        theQuery.setParameter("adminId", theId);
 
         theQuery.executeUpdate();
 
     }
+
 
 }
